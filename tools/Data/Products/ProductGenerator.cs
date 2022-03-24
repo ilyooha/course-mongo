@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
 using Data.Products.Models;
@@ -62,12 +63,12 @@ namespace Data.Products
             ProductType.Pancake
         };
 
-        public override async Task Generate(int count, Stream output)
+        public override async Task Generate(int count, Stream output, CancellationToken ct = default)
         {
             var documents = Enumerable.Range(0, count)
                 .Select(i => GetRandomProduct());
 
-            await WriteToFile(documents, output);
+            await WriteToFile(documents, output, ct);
         }
 
         private Product GetRandomProduct()
